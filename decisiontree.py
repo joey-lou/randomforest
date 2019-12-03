@@ -267,7 +267,7 @@ class DecisionTree:
                                 and d is number of features.
 
         Returns:
-            y (numpy array): predicted probabilities of shape [n], each [0,1].
+            y (numpy array): predicted probabilities of shape [n], each between [0,1].
         """
         y = np.zeros(X.shape[0])
         for i in range(X.shape[0]):

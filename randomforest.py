@@ -58,20 +58,46 @@ class RandomForest:
             self.features[i] = features
             self.trees[i] = tree
 
-    def predict(self, X):
-        """Predict labels given sample dataset X, use majority rule.
+    def predict(self, X, rule='prob'):
+        """Predict labels given sample dataset X, use majority rule or averaged probability.
+
+        Args:
+            X (numpy array): samples in shape [n x d], where n is number of samples,
+                                and d is number of features.
+            rule (string): rule for label assignment, either majority rule or probability.
+
+        Returns:
+            y (numpy array): predicted label of shape [n], each entry is binary.
+        """
+        if rule == 'majority':
+            y = []
+            for i, tree in self.trees.items():
+                features = self.features[i]
+                X_test = X[:, features]
+                y.append(tree.predict(X_test))
+            sums = np.sum(np.stack(y, axis=1), axis=1)
+            return (sums > (self.tree_num / 2)) * 1
+        elif rule == 'prob':
+            return (self.predict_prob(X) > 0.5) * 1
+        else:
+            raise Exception(
+                'Invalid entry for rules, choices are: "majority" or "prob".')
+
+    def predict_prob(self, X):
+        """Predict probabilities of positive given sample dataset X.
+
+        Calculate average probability from all trees.
 
         Args:
             X (numpy array): samples in shape [n x d], where n is number of samples,
                                 and d is number of features.
 
         Returns:
-            y (numpy array): predicted label of shape [n], each entry is binary.
+            y (numpy array): predicted probabilities of shape [n], each between [0,1].
         """
         y = []
         for i, tree in self.trees.items():
             features = self.features[i]
             X_test = X[:, features]
-            y.append(tree.predict(X_test))
-        sums = np.sum(np.stack(y, axis=1), axis=1)
-        return (sums > (self.tree_num / 2)) * 1
+            y.append(tree.predict_prob(X_test))
+        return np.mean(np.stack(y, axis=1), axis=1)
