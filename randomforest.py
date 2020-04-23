@@ -24,12 +24,12 @@ class RandomForest:
                 tree_num (int): number of decision trees in forest.
                 depth (int): maximum depth of each decision tree.
                 min_improv (float): minimum improvement in gini impurity/entropy.
-                                eval_func (string): evaluation criteria, either gini impurity or entropy.
+                eval_func (string): evaluation criteria, either gini impurity or entropy.
         """
         self.fc = feature_count
         self.tree_num = tree_num
         self.trees = {}  # dictionary to store trees
-        self.features = {}  # dictionary to store selected
+        self.features = {}  # dictionary to store selected features
         self.max_depth = depth
         self.min_improv = min_improv
         if eval_func not in ['gini_impurity', 'entropy']:
