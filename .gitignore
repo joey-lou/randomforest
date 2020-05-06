@@ -1,5 +1,4 @@
-**/data
+*.png
 **/__pycache__
 **/.vscode
 .*
-

@@ -31,7 +31,7 @@ class randomforest.RandomForest(feature_count=1, tree_num=10,
   - `rule, optional (default="prob")` can also be `"majority"` whereby prediction is based on majority ruling from each decision trees.
 
 ## Sample Use
-Run sample_test.ipynb for a quick demo and comparing the efficacy of random forest against other algoirthms.  
+Run `sample_test.ipynb` for a quick demo and comparing the efficacy of random forest against other algoirthms.  
 An example use code snippet is shown below.
 ```python
 ...
@@ -40,3 +40,7 @@ forest.fit(X_train, y_train)
 y_pred = forest.predict(X_test)
 print("Accuracy = %f" % sum(y_test != y_pred)/len(y_test))
 ```
+Example visulization of random forest class boundaries:
+<div>
+<img src=data/forest_20.png width="500"/>
+</div>
